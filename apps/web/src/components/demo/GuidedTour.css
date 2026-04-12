@@ -1,0 +1,72 @@
+.tour-overlay {
+  z-index: 9999; /* Ensure highly visible overlay */
+}
+
+.tour-content {
+  position: relative;
+  width: 90vw !important;
+  max-width: 1400px !important;
+  height: 85vh !important;
+  background: #000;
+  border-radius: 12px;
+  overflow: hidden;
+}
+
+.tour-iframe {
+  width: 100%;
+  height: 100%;
+  border: none;
+  opacity: 0.95;
+  pointer-events: none; /* Important: The user cannot physically click inside the tour, it drives itself */
+}
+
+/* The Fake Cursor */
+.tour-cursor {
+  position: absolute;
+  top: 0; left: 0;
+  width: 24px; height: 24px;
+  z-index: 10010;
+  transition: transform 1.2s cubic-bezier(0.25, 1, 0.5, 1);
+  pointer-events: none;
+  filter: drop-shadow(0px 4px 6px rgba(0,0,0,0.5));
+}
+
+.tour-cursor svg {
+  width: 100%;
+  height: 100%;
+}
+
+.tour-clicking {
+  animation: clickPulse 0.4s ease-out;
+}
+
+@keyframes clickPulse {
+  0% { transform: scale(1); }
+  50% { transform: scale(0.85); }
+  100% { transform: scale(1); }
+}
+
+/* Subtitles / Helper Text */
+.tour-helper-text {
+  position: absolute;
+  bottom: 40px;
+  left: 50%;
+  transform: translateX(-50%);
+  background: rgba(0, 0, 0, 0.8);
+  border: 1px solid rgba(255, 255, 255, 0.1);
+  color: #fff;
+  padding: 12px 24px;
+  border-radius: 24px;
+  font-size: 16px;
+  font-weight: 500;
+  letter-spacing: 0.02em;
+  z-index: 10015;
+  backdrop-filter: blur(10px);
+  animation: textFadeIn 0.5s ease;
+  white-space: nowrap;
+}
+
+@keyframes textFadeIn {
+  from { opacity: 0; transform: translate(-50%, 10px); }
+  to { opacity: 1; transform: translate(-50%, 0); }
+}

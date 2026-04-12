@@ -1,0 +1,18 @@
+{
+  "name": "dataflow-ai",
+  "version": "0.1.0",
+  "private": true,
+  "description": "The AI-Native Autonomous Data Engineering Platform",
+  "scripts": {
+    "dev:web": "pnpm --filter @dataflow/web dev",
+    "dev:api": "cd apps/api && uvicorn main:app --reload --port 8000",
+    "build:web": "pnpm --filter @dataflow/web build",
+    "lint:web": "pnpm --filter @dataflow/web lint",
+    "infra:up": "cd infrastructure/docker && docker compose up -d",
+    "infra:down": "cd infrastructure/docker && docker compose down"
+  },
+  "engines": {
+    "node": ">=20.0.0",
+    "pnpm": ">=9.0.0"
+  }
+}

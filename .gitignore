@@ -1,0 +1,53 @@
+# Dependencies
+node_modules/
+.venv/
+__pycache__/
+*.pyc
+*.egg-info/
+
+# Build outputs
+.next/
+build/
+dist/
+out/
+
+# Environment
+.env
+.env.local
+.env.*.local
+
+# Databases
+*.db
+*.duckdb
+*.sqlite
+
+# IDE
+.vscode/
+.idea/
+*.swp
+*.swo
+
+# OS
+.DS_Store
+Thumbs.db
+
+# Logs
+*.log
+logs/
+
+# Docker
+docker-compose.override.yml
+
+# Testing
+coverage/
+.pytest_cache/
+htmlcov/
+
+# Terraform
+.terraform/
+*.tfstate
+*.tfstate.backup
+*.tfplan
+
+# MinIO / Storage
+minio_data/

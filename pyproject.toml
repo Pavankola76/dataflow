@@ -1,0 +1,10 @@
+[project]
+name = "dataflow-ai"
+version = "0.1.0"
+description = "The AI-Native Autonomous Data Engineering Platform"
+
+[tool.poetry.dependencies]
+python = "^3.12"
+fastapi = "*"
+langchain = "*"
+langgraph = "*"

@@ -1,0 +1,43 @@
+version: "3.9"
+
+services:
+  # --- Central Production Control Plane ---
+  api:
+    build:
+      context: .
+      dockerfile: ./apps/api/Dockerfile
+    ports:
+      - "8000:8000"
+    restart: always
+    environment:
+      - APP_ENV=production
+      - APP_DEBUG=False
+      
+      # Database Connections - Provided securely by environment variables
+      - DATABASE_URL=${DATABASE_URL}
+      - REDIS_URL=${REDIS_URL}
+      
+      # Security Credentials
+      - JWT_SECRET=${JWT_SECRET}
+      - ENCRYPTION_KEY=${ENCRYPTION_KEY}
+      
+      # Cloud Object Storage (S3 / Cloudflare R2 structure)
+      - MINIO_ENDPOINT=${MINIO_ENDPOINT}
+      - MINIO_ACCESS_KEY=${MINIO_ACCESS_KEY}
+      - MINIO_SECRET_KEY=${MINIO_SECRET_KEY}
+      - MINIO_BUCKET=${MINIO_BUCKET:-dataflow-lake}
+      - MINIO_USE_SSL=true
+      
+      # AI Model Credentials
+      - OPENAI_API_KEY=${OPENAI_API_KEY}
+      - GOOGLE_API_KEY=${GOOGLE_API_KEY}
+      
+      # Production Domains
+      - FRONTEND_URL=https://dataflowai.net
+
+    volumes:
+      # Strictly ephemeral volumes for isolated DuckDB staging before wiping
+      - /tmp/dataflow:/tmp/dataflow
+    
+    # In production, we run under Gunicorn with Uvicorn workers for concurrency
+    command: uvicorn main:app --host 0.0.0.0 --port 8000 --workers 4
