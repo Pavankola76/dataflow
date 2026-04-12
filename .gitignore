@@ -51,3 +51,5 @@ htmlcov/
 
 # MinIO / Storage
 minio_data/
+.env.production
+*.env.production
