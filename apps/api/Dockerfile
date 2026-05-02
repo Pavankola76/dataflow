@@ -1,18 +1,23 @@
-FROM python:3.9-slim
+FROM python:3.11-slim
 
 WORKDIR /app
 
-# Copy the entire monorepo context to preserve paths
-COPY . /app
+# Install system dependencies for asyncpg, cryptography, etc.
+RUN apt-get update && \
+    apt-get install -y --no-install-recommends gcc g++ libpq-dev && \
+    rm -rf /var/lib/apt/lists/*
 
-WORKDIR /app/apps/api
+# Copy dependency files first for Docker layer caching
+COPY pyproject.toml requirements.txt ./
 
-# Install build tools and pip dependencies
-RUN apt-get update && apt-get install -y gcc g++ libpq-dev && rm -rf /var/lib/apt/lists/*
-RUN pip install --no-cache-dir -e .
-RUN pip install --no-cache-dir -r requirements.txt
+# Install Python dependencies
+RUN pip install --no-cache-dir -e . && \
+    pip install --no-cache-dir -r requirements.txt
 
+# Copy the rest of the application code
+COPY . .
+
+# Railway injects $PORT at runtime
 EXPOSE 8000
 
-# Start the uvicorn ASGI server
-CMD ["uvicorn", "main:app", "--host", "0.0.0.0", "--port", "8000"]
+CMD ["sh", "-c", "uvicorn main:app --host 0.0.0.0 --port ${PORT:-8000}"]
